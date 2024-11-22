@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:replace="~{fragments/fragments :: head}"></div>
+
+	<title>Pizzeria</title>
+</head>
+
+<body>
+
+	<div th:replace="~{fragments/navbar :: navbar('pizza')}"></div>
+	</br>
+	<div class="container py-3" th:object="${pizza}">
+		<h1 th:text="*{name}"></h1>
+		</br>
+		<img th:src="${pizza.photoUrl}" th:alt="${pizza.name}" height="150px" width="150px" />
+		<div class="row">
+			<div class="col-md-12">
+				<dl>
+					<dt>Description</dt>
+					<dd th:text="*{description}"></dd>
+					<dt>Price</dt>
+					<dd th:text="${#numbers.formatDecimal(pizza.price, 0, 2, 'COMMA')} + ' $'"></dd>
+				</dl>
+			</div>
+		</div>
+
+		<div th:if="*{!offers.isEmpty()}">
+
+			<table class="content table table-striped">
+				<thead>
+					<tr>
+						<th>
+							Special Offer start date
+						</th>
+						<th>
+							Special Offer end date
+						</th>
+						<th>
+							Title
+						</th>
+						<th>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="offer : ${pizza.offers}">
+						<td th:text="${offer.offerStartDate}">
+						</td>
+						<td th:text="${offer.offerEndDate}">
+						</td>
+						<td th:text="${offer.title}">
+						</td>
+						<td>
+							<a class="btn btn-primary" th:href="@{|/offer/edit/${offer.id}|}">
+								<i class="fas fa-edit"></i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div th:if="*{offers.isEmpty()}">
+			<span> There are no offers for this pizza </span>
+		</div>
+
+	</div>
+	<div class="container mt-auto">
+		<div class="row">
+			<div class="col-md-3">
+				<a class="btn btn-primary" th:href="@{/pizza}" role="button">Back to pizza</a>
+			</div>
+
+			<div class="col-md-3">
+				<a th:href="@{|/pizza/edit/${pizza.id}|}" class="btn btn-primary"><i class="fas fa-edit"></i> Edit
+					pizza</a>
+			</div>
+
+			<div class="col-md-3">
+				<form id="delete-pizza" action="#" th:action="@{'/pizza/delete/{id}'(id=${pizza.id})}" method="post">
+					<button class="btn btn-danger" type="submit" id="submitButton"
+						onclick="return confirm('Are you sure you want to delete this item?')">
+						<i class="fas fa-trash-alt"></i> Delete pizza
+					</button>
+				</form>
+			</div>
+			<div class="col-md-3">
+				<a class="btn btn-primary" th:href="@{/pizza/{id}/offer (id=${pizza.id})}">
+					New offer
+				</a>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{fragments/fragments :: script}"></div>
+</body>
+
+</html>

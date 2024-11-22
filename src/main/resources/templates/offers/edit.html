@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:replace="~{fragments/fragments :: head}"></div>
+	<title>Offer</title>
+</head>
+
+<body>
+	<div th:replace="~{fragments/navbar :: navbar('pizza')}"></div>
+	<div class="container">
+		<h1>Offer <span th:text="${offer.pizza.name}"></span></h1>
+
+		<hr />
+
+		<form id="offer-form" method="post" th:action="${edit} ? @{|/offer/edit/${offer.id}|} : @{/offer/create}"
+			th:object="${offer}" class="row g-3">
+
+			<ul>
+				<li th:each="err : ${#fields.allErrors()}" th:text="${err}" class="text-danger"> </li>
+			</ul>
+			<input type="hidden" th:field="*{pizza}" id="pizza">
+
+			<div class="col-md-6">
+				<label class="form-label" for="offerStartDate">Special Offer start date</label>
+				<input th:field="*{offerStartDate}" type="date" placeholder="Special Offer start date"
+					class="form-control" id="offerStartDate" th:errorClass="is-invalid" required>
+				<div>
+					<ul>
+						<li th:each="error : ${#fields.errors('offerStartDate')}" th:text="${error}"> </li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<label class="form-label" for="offerEndDate">Special Offer end date</label>
+				<input th:field="*{offerEndDate}" type="date" placeholder="Special Offer end date" class="form-control"
+					id="offerEndDate" th:errorClass="is-invalid" required>
+				<div>
+					<ul>
+						<li th:each="error : ${#fields.errors('offerEndDate')}" th:text="${error}"> </li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-12">
+				<label for="title" class="form-label">Title</label>
+
+				<textarea rows="3" th:field="*{title}" id="title" th:errorClass="is-invalid"></textarea>
+			</div>
+
+			<div class="col-12">
+				<button type="submit" class="btn btn-primary">
+					<i class="fas fa-check"></i> Save
+				</button>
+				<a class="btn btn-danger" th:href="@{/pizza/show/{id}(id=${offer.pizza.id})}">
+					<i class="fas fa-times"></i>
+				</a>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="~{fragments/fragments :: scripts}"></div>
+</body>
+
+</html>
