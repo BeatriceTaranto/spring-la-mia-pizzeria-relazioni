@@ -16,13 +16,19 @@
 		</br>
 		<img th:src="${pizza.photoUrl}" th:alt="${pizza.name}" height="150px" width="150px" />
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-8">
 				<dl>
 					<dt>Description</dt>
 					<dd th:text="*{description}"></dd>
 					<dt>Price</dt>
 					<dd th:text="${#numbers.formatDecimal(pizza.price, 0, 2, 'COMMA')} + ' $'"></dd>
 				</dl>
+			</div>
+			<div class="col-4">
+				<h3>Ingredients</h3>
+				<ul>
+					<li th:each="ing : *{ingredients}" th:text="${ing.ingredient}"> </li>
+				</ul>
 			</div>
 		</div>
 
@@ -53,7 +59,7 @@
 						<td th:text="${offer.title}">
 						</td>
 						<td>
-							<a class="btn btn-primary" th:href="@{|/offer/edit/${offer.id}|}">
+							<a class="btn btn-success" th:href="@{|/offer/edit/${offer.id}|}">
 								<i class="fas fa-edit"></i>
 							</a>
 						</td>
@@ -87,7 +93,7 @@
 				</form>
 			</div>
 			<div class="col-md-3">
-				<a class="btn btn-primary" th:href="@{/pizza/{id}/offer (id=${pizza.id})}">
+				<a class="btn btn-success" th:href="@{/pizza/{id}/offer (id=${pizza.id})}">
 					New offer
 				</a>
 			</div>

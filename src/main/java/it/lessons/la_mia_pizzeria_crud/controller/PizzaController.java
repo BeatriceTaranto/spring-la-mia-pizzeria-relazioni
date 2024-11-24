@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import it.lessons.la_mia_pizzeria_crud.model.Offer;
 import it.lessons.la_mia_pizzeria_crud.model.Pizza;
+import it.lessons.la_mia_pizzeria_crud.repository.IngredientRepository;
 import it.lessons.la_mia_pizzeria_crud.repository.PizzaRepository;
 import jakarta.validation.Valid;
 
@@ -26,8 +27,11 @@ public class PizzaController {
 	@Autowired
 	private PizzaRepository pizzaRepository;
 
+	@Autowired
+	private IngredientRepository ingredientRepository;
+
 	@GetMapping
-	public String index(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
+	public String index(Model model, @RequestParam(name = "keyword", required = false) String keyword) {
 		List<Pizza> allPizzas;
 		if (keyword != null && !keyword.isBlank()) {
 			model.addAttribute("keyword", keyword);
@@ -55,6 +59,7 @@ public class PizzaController {
 	@GetMapping("/create")
 	public String create(Model model) {
 		model.addAttribute("pizza", new Pizza());
+		model.addAttribute("allIngredients", ingredientRepository.findAll());
 		return "pizza/create";
 	}
 
@@ -70,6 +75,7 @@ public class PizzaController {
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable Long id, Model model) {
 		model.addAttribute("pizza", pizzaRepository.findById(id).get());
+		model.addAttribute("allIngredients", ingredientRepository.findAll());
 		return "pizza/edit";
 	}
 
@@ -92,7 +98,7 @@ public class PizzaController {
 	public String offer(@PathVariable Long id, Model model) {
 
 		Pizza pizza = pizzaRepository.findById(id).get();
-		
+
 		Offer special_offer = new Offer();
 		special_offer.setPizza(pizza);
 		model.addAttribute("offer", special_offer);

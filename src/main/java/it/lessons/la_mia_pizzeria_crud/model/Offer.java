@@ -2,6 +2,8 @@ package it.lessons.la_mia_pizzeria_crud.model;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,10 +21,12 @@ public class Offer {
 	private Long id;
 
 	@NotNull(message = "Special offer start date cannot be null")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@FutureOrPresent
 	private LocalDate offerStartDate;
 
 	@NotNull(message = "Special offer end date cannot be null")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@FutureOrPresent
 	private LocalDate offerEndDate;
 
@@ -31,7 +35,7 @@ public class Offer {
 	@ManyToOne
 	@JoinColumn(name = "pizza_id", nullable = false)
 	private Pizza pizza;
-	
+
 	private boolean valid = true;
 
 	public Long getId() {

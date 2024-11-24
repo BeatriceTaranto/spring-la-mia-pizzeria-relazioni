@@ -7,7 +7,7 @@
 	<nav th:fragment="navbar(pagename)" class="navbar navbar-expand-lg navbar-light bg-light">
 
 		<div class="container-fluid">
-			<a class="navbar-brand" th:href="@{/pizza}"> Pizzeria </a>
+			<a class="navbar-brand fw-bold" th:href="@{/pizza}"> Pizzeria </a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -15,12 +15,20 @@
 			<div class="collapse navbar-collapse" id="navbarContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" th:href="@{/pizza}"
-							th:classappend="${pagename == 'pizza'} ? active : not-active">
-							Pizza
+						<a class="nav-link" aria-current="page" th:href="@{/pizza}"
+						   th:classappend="${pagename == 'pizza'} ? 'active' : ''"> Pizza</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" th:href="@{/ingredients}"
+						   th:classappend="${pagename == 'ingredients'} ? 'active' : ''"> Ingredients</a>
 						</a>
 					</li>
 				</ul>
+				<div class="d-flex">
+					<a href="#" class="btn btn-outline-primary">
+						<i class="fas fa-user"></i> Login
+					</a>
+				</div>
 			</div>
 		</div>
 	</nav>
